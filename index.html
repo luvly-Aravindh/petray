@@ -913,6 +913,7 @@ html{overflow-x:clip}
       <div class="gift"><div class="gift-cover"><span>7</span></div><div class="gift-txt"><b>Yours when you submit</b>7 copy-paste replies for your most asked tickets</div></div>
       <div class="prog" aria-hidden="true"><i class="on"></i><i></i><i></i></div>
       <form id="leadForm" novalidate>
+        <input type="text" name="honeypot" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
         <div class="fstep on" data-step="1">
           <h3>Your store</h3><p class="hint">Step 1 of 3</p>
           <div class="fld" data-req="platform"><span class="lab" id="lp">Where does your store run?</span>
@@ -1267,11 +1268,50 @@ html{overflow-x:clip}
     }).join("") + '</div>';
   }
   function esc(s){ return String(s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
+
+  /* Getnos Desk lead capture: each answer is its own flat field, custom keys become columns */
+  var DESK_URL = "https://deskbackend.getnos.io/v1/lead";
+  var DESK_KEY = "lh_nu6mKlAAAVt3b_HEN3feJHZjw7inlcfA3J_OnrPyqpo";
+  var submitting = false;
+  function submitLead(fields){
+    if(submitting) return Promise.resolve({duplicate:true, skipped:true});
+    submitting = true;
+    var body = Object.assign({form:"contact", honeypot:""}, fields);
+    return fetch(DESK_URL, {
+      method: "POST",
+      headers: {"Content-Type":"application/json", "Authorization":"Bearer " + DESK_KEY},
+      body: JSON.stringify(body),
+      keepalive: true
+    }).then(function(res){
+      return res.json().catch(function(){ return {}; }).then(function(data){
+        /* Desk ignores identical payloads for ~15 min, treat as success */
+        if(data.duplicate) return data;
+        if(!res.ok) throw new Error(data.message || "Lead submit failed (" + res.status + ")");
+        return data;
+      });
+    }).catch(function(err){
+      if(window.console) console.warn("Desk lead submit failed:", err);
+      return {status:"error", message: String(err && err.message || err)};
+    }).then(function(r){ submitting = false; return r; });
+  }
+
   function finish(qualified){
     var lead = { qualified: qualified, platform: val("platform"), store: val("store"), market: val("market"),
       orders: val("orders"), team: val("team"), channels: val("channels"), name: val("name"), email: val("email"),
       phone: val("phone"), plan: val("plan"), page: "chililabs_trial_lp_v9.2", ts: new Date().toISOString() };
     try { window.dispatchEvent(new CustomEvent("chili:lead", {detail: lead})); } catch(err){}
+    /* only qualified leads reach the contact step; not-a-fit exits at step 1 with no name, email or phone */
+    if(qualified){
+      submitLead({
+        name: lead.name, email: lead.email, phone: lead.phone,
+        platform: lead.platform, store: lead.store, market: lead.market,
+        orders: lead.orders, team: lead.team, channels: lead.channels.join(", "),
+        plan: lead.plan, qualified: "yes",
+        honeypot: val("honeypot"),
+        subject: "New Chili Labs trial lead" + (lead.name ? " - " + lead.name : ""),
+        source: "chililabs_trial_lp", page: location.href, submitted_at: lead.ts
+      });
+    }
     /* Dev: wire CRM webhook and Meta Pixel here, e.g. fbq('track','Lead') when qualified, fbq('trackCustom','NotAFit') when not. */
     form.hidden = true;
     document.querySelector(".prog").style.display = "none";
