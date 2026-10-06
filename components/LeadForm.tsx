@@ -296,7 +296,7 @@ export default function LeadForm() {
         tier: l.tier,
         qualified: "yes",
         honeypot: values.honeypot,
-        subject: "New Chili Labs trial lead" + (l.name ? " - " + l.name : ""),
+        subject: "New Chili Labs trial lead",
         source: "chililabs_trial_lp",
         page: window.location.href,
         submitted_at: l.ts,
