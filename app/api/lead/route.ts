@@ -3,15 +3,14 @@
    (from env, never shipped to the client) and forwards them to Desk.
    Each answer stays its own JSON field, and extra / custom keys are saved too. */
 
-const DESK_URL = process.env.DESK_URL || "https://deskbackend.getnos.io/v1/lead";
+import { DESK_LEAD_KEY, DESK_URL as DEFAULT_DESK_URL } from "@/lib/desk";
+
+const DESK_URL = process.env.DESK_URL || DEFAULT_DESK_URL;
 const MAX_FIELD = 2000;
 const MAX_FIELDS = 40;
 
 export async function POST(req: Request) {
-  const apiKey = process.env.DESK_API_KEY;
-  if (!apiKey) {
-    return Response.json({ status: "error", message: "DESK_API_KEY is not configured" }, { status: 500 });
-  }
+  const apiKey = process.env.DESK_API_KEY || DESK_LEAD_KEY;
 
   let input: unknown;
   try {

@@ -8,6 +8,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import { submitLead } from "@/lib/submitLead";
 import { BOOKING_URL, CALL_MINUTES, buildDays, fmt, localTimeZone, type BookingDay } from "@/lib/booking";
+import { COUNTRIES, DEFAULT_COUNTRY, cleanDigits, countryOf, flagUrl, phoneError } from "@/lib/phone";
 
 type Opt = { value: string; label: string };
 
@@ -51,14 +52,14 @@ const PLAN: Opt[] = [
 type Values = {
   platform: string; store: string; market: string;
   orders: string; team: string; channels: string[];
-  name: string; email: string; phone: string; plan: string;
+  name: string; email: string; phone: string; phoneCountry: string; plan: string;
   honeypot: string;
 };
-type FieldName = Exclude<keyof Values, "honeypot">;
+type FieldName = Exclude<keyof Values, "honeypot" | "phoneCountry">;
 
 const EMPTY: Values = {
   platform: "", store: "", market: "", orders: "", team: "", channels: [],
-  name: "", email: "", phone: "", plan: "", honeypot: "",
+  name: "", email: "", phone: "", phoneCountry: DEFAULT_COUNTRY, plan: "", honeypot: "",
 };
 const STEP_FIELDS: FieldName[][] = [
   ["platform", "store", "market"],
@@ -78,7 +79,7 @@ const labelOf = (opts: Opt[], v: string) => opts.find((o) => o.value === v)?.lab
 function fieldOk(name: FieldName, v: Values): boolean {
   const val = v[name];
   if (name === "email") return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(val as string);
-  if (name === "phone") return (val as string).replace(/[^\d]/g, "").length >= 10;
+  if (name === "phone") return phoneError(v.phone, v.phoneCountry) === "";
   if (name === "store") return v.platform === "other" || ((val as string).length >= 4 && /\./.test(val as string));
   if (Array.isArray(val)) return val.length > 0;
   return !!(val as string).trim();
@@ -226,6 +227,11 @@ export default function LeadForm() {
         if (checked) set.add(value); else set.delete(value);
         return { ...v, channels: CHANNELS.map((c) => c.value).filter((c) => set.has(c)) };
       }
+      /* pre-pick the phone country from the market while the number is still empty */
+      if (name === "market" && !v.phone) {
+        const iso = value === "us" ? "US" : value === "india" ? "IN" : v.phoneCountry;
+        return { ...v, market: value, phoneCountry: iso };
+      }
       return { ...v, [name]: value };
     });
     clearBad(name);
@@ -236,6 +242,24 @@ export default function LeadForm() {
   }
   function clearBad(name: FieldName) {
     setBad((b) => { if (!b.has(name)) return b; const n = new Set(b); n.delete(name); return n; });
+  }
+  function markBad(name: FieldName) {
+    setBad((b) => { if (b.has(name)) return b; const n = new Set(b); n.add(name); return n; });
+  }
+
+  /* phone: digits only, capped per country; an error already shown stays live until fixed */
+  function setPhone(raw: string) {
+    const digits = cleanDigits(raw, values.phoneCountry);
+    setValues((v) => ({ ...v, phone: digits }));
+    if (bad.has("phone") && !phoneError(digits, values.phoneCountry)) clearBad("phone");
+  }
+  function setPhoneCountry(iso: string) {
+    const digits = cleanDigits(values.phone, iso);
+    setValues((v) => ({ ...v, phoneCountry: iso, phone: digits }));
+    if (digits && phoneError(digits, iso)) markBad("phone"); else clearBad("phone");
+  }
+  function blurPhone() {
+    if (values.phone && phoneError(values.phone, values.phoneCountry)) markBad("phone");
   }
 
   function check(i: number): boolean {
@@ -267,7 +291,7 @@ export default function LeadForm() {
     const base = {
       qualified, platform: values.platform, store: values.store.trim(), market: values.market,
       orders: values.orders, team: values.team, channels: values.channels.join(", "),
-      name: values.name.trim(), email: values.email.trim(), phone: values.phone.trim(), plan: values.plan,
+      name: values.name.trim(), email: values.email.trim(), phone: `+${countryOf(values.phoneCountry).dial} ${values.phone}`, plan: values.plan,
       page: PAGE_VERSION, ts: new Date().toISOString(),
     };
     const l: Lead = { ...base, tier: tierOf(base) };
@@ -286,6 +310,7 @@ export default function LeadForm() {
         name: l.name,
         email: l.email,
         phone: l.phone,
+        phone_country: countryOf(values.phoneCountry).name,
         platform: labelOf(PLATFORM, l.platform),
         store: l.store,
         market: labelOf(MARKET, l.market),
@@ -401,9 +426,26 @@ export default function LeadForm() {
                 </div>
                 <div className={`fld${bad.has("phone") ? " bad" : ""}`} data-req="phone">
                   <label htmlFor="phone">WhatsApp number</label>
-                  <input id="phone" name="phone" type="tel" autoComplete="tel" placeholder="+91 98xxx xxxxx or +1 555 xxx xxxx"
-                    value={values.phone} onChange={(e) => setText("phone", e.target.value)} />
-                  <p className="err">Add a number with country code, so setup help can reach you.</p>
+                  <div className="ph">
+                    <div className="ph-cc">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={flagUrl(values.phoneCountry)} alt="" width={22} height={16} />
+                      <span>+{countryOf(values.phoneCountry).dial}</span>
+                      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <path d="M6 9l6 6 6-6" />
+                      </svg>
+                      <select aria-label="Country code" value={values.phoneCountry} onChange={(e) => setPhoneCountry(e.target.value)}>
+                        {COUNTRIES.map((c) => (
+                          <option key={c.iso} value={c.iso}>{c.name} (+{c.dial})</option>
+                        ))}
+                      </select>
+                    </div>
+                    <input id="phone" name="phone" type="tel" inputMode="numeric" autoComplete="tel-national"
+                      aria-describedby="phoneErr" aria-invalid={bad.has("phone")}
+                      placeholder={values.phoneCountry === "IN" ? "98765 43210" : "Mobile number"}
+                      value={values.phone} onChange={(e) => setPhone(e.target.value)} onBlur={blurPhone} />
+                  </div>
+                  <p className="err" id="phoneErr" role="alert">{phoneError(values.phone, values.phoneCountry) || "Add your WhatsApp number so setup help can reach you."}</p>
                 </div>
                 <div className={`fld${bad.has("plan") ? " bad" : ""}`} data-req="plan">
                   <OptionGroup name="plan" labelId="lpl" label="Which plan are you leaning towards?" opts={PLAN} {...opt} />

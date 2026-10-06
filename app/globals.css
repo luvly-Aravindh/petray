@@ -566,3 +566,13 @@ html{overflow-x:clip}
 /* Ticker sits clear above the frozen bar, scaled down to read sleek */
 .gn-proof-ticker{bottom:84px!important}
 @media (max-width:540px){.gn-proof-ticker{transform-origin:left bottom}}
+
+/* WhatsApp number: country code picker + number */
+.ph{display:flex;gap:8px;align-items:stretch}
+.ph-cc{position:relative;flex-shrink:0;display:flex;align-items:center;gap:7px;min-height:52px;padding:0 12px;border-radius:14px;border:1.5px solid #ddd6ea;background:#fff;font-size:16px;font-weight:600;color:var(--ink);transition:border-color .2s,box-shadow .2s}
+.ph-cc img{width:22px;height:16px;border-radius:3px;object-fit:cover;box-shadow:0 0 0 1px rgba(22,11,46,.08)}
+.ph-cc svg{color:var(--muted)}
+.ph-cc select{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;font-size:16px}
+.ph-cc:focus-within{border-color:var(--v500);box-shadow:0 0 0 4px rgba(139,92,246,.18)}
+.ph input[type=tel]{flex:1;min-width:0}
+.fld.bad .ph-cc{border-color:var(--red)}
