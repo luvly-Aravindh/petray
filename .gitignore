@@ -1,0 +1,12 @@
+node_modules
+.next
+out
+*.tsbuildinfo
+next-env.d.ts
+
+# secrets: copy .env.example to .env.local
+.env
+.env*.local
+
+.DS_Store
+npm-debug.log*

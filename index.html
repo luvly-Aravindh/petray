@@ -111,12 +111,6 @@ button{font:inherit}
 .hero-proof span{display:inline-flex;align-items:center;gap:7px}
 .hero-proof svg{width:16px;height:16px;flex-shrink:0}
 .star{color:#f5a524}
-.gift{display:inline-flex;align-items:center;gap:12px;padding:8px 16px 8px 8px;border-radius:16px;background:#fff;border:1px solid var(--rule);box-shadow:var(--shadow);text-align:left;max-width:100%}
-.gift-cover{flex-shrink:0;width:40px;height:50px;border-radius:7px;background:var(--grad);position:relative;display:flex;align-items:flex-end;padding:5px;box-shadow:3px 3px 0 var(--night)}
-.gift-cover::before{content:"";position:absolute;left:6px;right:6px;top:8px;height:3px;border-radius:2px;background:rgba(255,255,255,.85);box-shadow:0 6px 0 rgba(255,255,255,.55),0 12px 0 rgba(255,255,255,.55)}
-.gift-cover span{font-weight:700;font-size:11px;color:#fff;line-height:1}
-.gift-txt{font-size:13px;line-height:1.35;color:var(--text-2)}
-.gift-txt b{display:block;color:var(--ink);font-size:14px}
 .stage{margin:44px auto 0;max-width:900px;position:relative}
 .stage::before{content:"";position:absolute;inset:8% 6% -6%;background:radial-gradient(closest-side,rgba(124,58,237,.38),transparent);filter:blur(30px);z-index:0}
 
@@ -394,7 +388,6 @@ footer .brand img{width:26px;height:26px}
 .f-close{position:absolute;top:16px;right:16px;width:40px;height:40px;border-radius:50%;border:1px solid var(--rule);background:#fff;color:var(--ink);font-size:15px;cursor:pointer;display:grid;place-items:center;z-index:2}
 .f-title{font-family:var(--serif);font-weight:400;font-size:34px;line-height:1.05;padding-right:46px}
 .f-intro{color:var(--text-2);font-size:15px;margin:8px 0 18px;padding-right:20px}
-.form-card .gift{box-shadow:none;margin-bottom:18px;display:flex}
 .prog{display:flex;gap:6px;margin-bottom:22px}
 .prog i{flex:1;height:5px;border-radius:5px;background:var(--v100);overflow:hidden;position:relative}
 .prog i::after{content:"";position:absolute;inset:0;background:var(--grad);transform:scaleX(0);transform-origin:left;transition:transform .5s}
@@ -428,6 +421,27 @@ footer .brand img{width:26px;height:26px}
 .fnav .cta{width:100%;max-width:340px}
 .back{background:none;border:0;color:var(--muted);font-weight:600;cursor:pointer;min-height:44px;padding:6px 12px}
 .fine{font-size:12.5px;color:var(--muted);text-align:center;margin-top:12px}
+.bk{margin-top:18px;text-align:left}
+.bk-h{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--v700);margin:16px 0 8px}
+.bk-days{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 2px 6px;scrollbar-width:none}
+.bk-days::-webkit-scrollbar{display:none}
+.bk-day{flex:0 0 auto;scroll-snap-align:start;min-width:66px;padding:10px 8px;border-radius:14px;border:1.5px solid #ddd6ea;background:#fff;text-align:center;cursor:pointer;font:inherit;transition:all .2s}
+.bk-day small{display:block;font-size:11.5px;color:var(--text-2);font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+.bk-day b{display:block;font-size:20px;line-height:1.2;color:var(--ink)}
+.bk-day[aria-pressed=true]{border-color:var(--v500);background:var(--v50);box-shadow:0 0 0 3px rgba(139,92,246,.14)}
+.bk-slots{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.bk-slot{padding:11px 6px;border-radius:12px;border:1.5px solid #ddd6ea;background:#fff;font:inherit;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;color:var(--ink)}
+.bk-slot:hover{border-color:var(--v300)}
+.bk-slot[aria-pressed=true]{border-color:var(--v600);background:var(--v600);color:#fff}
+.bk-tz{font-size:12.5px;color:var(--text-2);margin-top:8px}
+.bk-empty{grid-column:1/-1;font-size:14px;color:var(--text-2);padding:10px 0}
+.bk .cta{width:100%;justify-content:center;margin-top:16px}
+.bk .cta[disabled]{opacity:.45;pointer-events:none}
+.bk-skip{display:block;margin:12px auto 0;background:none;border:0;font:inherit;font-size:14px;color:var(--text-2);text-decoration:underline;cursor:pointer}
+.bk-frame{width:100%;height:640px;border:0;border-radius:14px;margin-top:14px;background:#fff}
+.booked{margin-top:16px;padding:14px 16px;border-radius:14px;border:1.5px solid var(--v300);background:var(--v50);text-align:left;font-size:15px}
+.booked b{display:block;font-size:17px;color:var(--v800)}
+@media(max-width:420px){.bk-slots{grid-template-columns:repeat(2,1fr)}.bk-frame{height:560px}}
 .done-card{text-align:center}
 .done-ic{width:76px;height:76px;margin:0 auto 16px;border-radius:50%;display:grid;place-items:center;background:var(--grad);animation:pop .6s cubic-bezier(.3,1.5,.5,1)}
 .done-ic.warn{background:linear-gradient(135deg,#f59e0b,#f43191)}
@@ -437,14 +451,6 @@ footer .brand img{width:26px;height:26px}
 .next{margin-top:20px;text-align:left;display:grid;gap:10px}
 .next div{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border-radius:14px;background:var(--v50);font-size:15px;line-height:1.45}
 .next b.n{flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--v700);color:#fff;display:grid;place-items:center;font-size:13px}
-.tpl{margin-top:22px;text-align:left}
-.tpl h4{font-size:16px;margin:0 0 10px}
-.tpl details{border:1px solid var(--rule);border-radius:14px;background:#fff;margin-bottom:8px}
-.tpl summary{cursor:pointer;padding:13px 14px;font-weight:600;font-size:15px;list-style:none;display:flex;justify-content:space-between;gap:10px}
-.tpl summary::after{content:"+";font-size:20px;line-height:1;color:var(--v600)}
-.tpl details[open] summary::after{content:"\2212"}
-.tpl .body{padding:0 14px 14px;font-size:14.5px;color:var(--text-2);white-space:pre-line}
-.tpl .copy{margin-top:10px;border:1px solid var(--v300);background:var(--v50);color:var(--v800);border-radius:10px;padding:7px 12px;font-weight:600;font-size:13px;cursor:pointer}
 body.locked{overflow:hidden}
 
 
@@ -910,10 +916,8 @@ html{overflow-x:clip}
       <button type="button" class="f-close" id="fClose" aria-label="Close form">&#10005;</button>
       <h2 class="f-title" id="fTitle">Start your free trial</h2>
       <p class="f-intro">Three quick questions so we can set Chili Labs up for your store. About 60 seconds.</p>
-      <div class="gift"><div class="gift-cover"><span>7</span></div><div class="gift-txt"><b>Yours when you submit</b>7 copy-paste replies for your most asked tickets</div></div>
       <div class="prog" aria-hidden="true"><i class="on"></i><i></i><i></i></div>
       <form id="leadForm" novalidate>
-        <input type="text" name="honeypot" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
         <div class="fstep on" data-step="1">
           <h3>Your store</h3><p class="hint">Step 1 of 3</p>
           <div class="fld" data-req="platform"><span class="lab" id="lp">Where does your store run?</span>
@@ -1253,84 +1257,127 @@ html{overflow-x:clip}
   form.querySelectorAll("[data-back]").forEach(function(b){ b.addEventListener("click", function(){ show(Math.max(0, cur - 1)); }); });
   form.addEventListener("submit", function(e){ e.preventDefault(); if(!check(2)) return; finish(true); });
 
-  var TEMPLATES = [
-    ["Where is my order?","Hi {name}, thanks for checking in. Your order {order} shipped on {date} with {courier} and is on its way. You can follow it live here: {tracking}. It should reach you by {eta}."],
-    ["Order delayed","Hi {name}, your order {order} is running {days} days behind because {reason}. I'm sorry for the wait. It is now due by {eta}, and I'll message you the moment it moves."],
-    ["Exchange request","Hi {name}, no problem at all. I've started an exchange for {item} in size {size}. A prepaid return label is in your inbox. Your new item ships as soon as the courier scans the return."],
-    ["Refund status","Hi {name}, your refund of {amount} for order {order} was processed on {date}. Banks usually take {days} working days to show it. If it isn't there by {eta}, reply here and I'll chase it."],
-    ["Damaged item","Hi {name}, I'm sorry your {item} arrived damaged. Could you send one photo of it? Once I have it, I'll send a replacement or a full refund, whichever you prefer."],
-    ["Discount code not working","Hi {name}, sorry about that. The code {code} applies to {rule}. I've added the discount to your order manually, so you're all set."],
-    ["Cancel my order","Hi {name}, done. Order {order} is cancelled and your refund of {amount} is on its way. It will show in {days} working days. Hope to see you back soon."]
-  ];
-  function tplHTML(){
-    return '<div class="tpl"><h4>Your 7 copy-paste replies</h4>' + TEMPLATES.map(function(t){
-      return '<details><summary>'+t[0]+'</summary><div class="body"><span class="tt">'+t[1]+'</span><br><button type="button" class="copy">Copy reply</button></div></details>';
-    }).join("") + '</div>';
+  /* Lead tier for the Google Leads Sheet.
+     hot     = live Shopify store AND (1,000+ orders a month, OR 300 to 1,000 with a team, OR already on another helpdesk)
+     warm    = live Shopify store, everything else
+     nurture = Shopify, launching soon
+     not_fit = another platform */
+  function tierOf(l){
+    if(l.platform === "other") return "not_fit";
+    if(l.platform === "shopify_prelaunch") return "nurture";
+    var big = l.orders === "1000_5000" || l.orders === "gt5000";
+    var mid = l.orders === "300_1000" && l.team && l.team !== "founder";
+    var switching = (l.channels || "").indexOf("helpdesk") > -1;
+    return (big || mid || switching) ? "hot" : "warm";
   }
   function esc(s){ return String(s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
 
-  /* Getnos Desk lead capture: each answer is its own flat field, custom keys become columns */
-  var DESK_URL = "https://deskbackend.getnos.io/v1/lead";
-  var DESK_KEY = "lh_nu6mKlAAAVt3b_HEN3feJHZjw7inlcfA3J_OnrPyqpo";
-  var submitting = false;
-  function submitLead(fields){
-    if(submitting) return Promise.resolve({duplicate:true, skipped:true});
-    submitting = true;
-    var body = Object.assign({form:"contact", honeypot:""}, fields);
-    return fetch(DESK_URL, {
-      method: "POST",
-      headers: {"Content-Type":"application/json", "Authorization":"Bearer " + DESK_KEY},
-      body: JSON.stringify(body),
-      keepalive: true
-    }).then(function(res){
-      return res.json().catch(function(){ return {}; }).then(function(data){
-        /* Desk ignores identical payloads for ~15 min, treat as success */
-        if(data.duplicate) return data;
-        if(!res.ok) throw new Error(data.message || "Lead submit failed (" + res.status + ")");
-        return data;
-      });
-    }).catch(function(err){
-      if(window.console) console.warn("Desk lead submit failed:", err);
-      return {status:"error", message: String(err && err.message || err)};
-    }).then(function(r){ submitting = false; return r; });
+  /* ===== Meeting booking (v9.4) =====
+     Option A: paste the Chili Labs Calendly or Cal.com link in BOOKING_URL. The page embeds it inline (no redirect), prefilled with name and email.
+     Option B (default, BOOKING_URL empty): built-in slot picker. The chosen slot fires a "chili:booking" event for the Google Leads Sheet; the team confirms on WhatsApp.
+     VERIFY with Chili Labs: call length and the hours their team can take calls for each market. */
+  var BOOKING_URL = "";
+  var CALL_MINUTES = 20;
+  var HOURS = {
+    india:  {tz:"Asia/Kolkata",     start:[10,0], end:[19,0], days:[1,2,3,4,5,6]},
+    us:     {tz:"America/New_York", start:[9,0],  end:[13,0], days:[1,2,3,4,5]},
+    global: {tz:"Asia/Kolkata",     start:[10,0], end:[19,0], days:[1,2,3,4,5]}
+  };
+  var LEAD_HOURS = 2, DAYS_AHEAD = 7;
+  function tzOffset(ms, tz){
+    var f = new Intl.DateTimeFormat("en-US",{timeZone:tz,hourCycle:"h23",year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",second:"2-digit"});
+    var o = {}; f.formatToParts(new Date(ms)).forEach(function(x){ o[x.type] = x.value; });
+    return Date.UTC(+o.year, +o.month - 1, +o.day, +o.hour % 24, +o.minute, +o.second) - ms;
   }
-
+  function zoned(y, m, d, h, mi, tz){ var g = Date.UTC(y, m, d, h, mi); var t = g - tzOffset(g, tz); return t - (tzOffset(t, tz) - tzOffset(g, tz)); }
+  function partsIn(ms, tz){
+    var f = new Intl.DateTimeFormat("en-US",{timeZone:tz,year:"numeric",month:"numeric",day:"numeric",weekday:"short"});
+    var o = {}; f.formatToParts(new Date(ms)).forEach(function(x){ o[x.type] = x.value; });
+    return {y:+o.year, m:+o.month - 1, d:+o.day, wd:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].indexOf(o.weekday)};
+  }
+  function buildDays(market){
+    var H = HOURS[market] || HOURS.global, now = Date.now(), out = [];
+    for(var i = 0; i < 21 && out.length < DAYS_AHEAD; i++){
+      var p = partsIn(now + i * 864e5, H.tz);
+      if(H.days.indexOf(p.wd) < 0) continue;
+      var slots = [], t = zoned(p.y, p.m, p.d, H.start[0], H.start[1], H.tz), end = zoned(p.y, p.m, p.d, H.end[0], H.end[1], H.tz);
+      for(; t + CALL_MINUTES * 6e4 <= end; t += 30 * 6e4){ if(t > now + LEAD_HOURS * 36e5) slots.push(t); }
+      if(slots.length) out.push({key:p.y+"-"+p.m+"-"+p.d, first:slots[0], slots:slots});
+    }
+    return out;
+  }
+  var localTZ = (Intl.DateTimeFormat().resolvedOptions().timeZone) || "your time";
+  function fmt(ms, o){ return new Intl.DateTimeFormat(undefined, o).format(new Date(ms)); }
+  function stepsHTML(){
+    return '<div class="next"><div><b class="n">1</b><span>Open the Shopify App Store, search for Chililabs: AI Customer Support and tap Install.</span></div><div><b class="n">2</b><span>Approve it in Shopify. Setup takes under 7 minutes.</span></div><div><b class="n">3</b><span>On your call, the Chili Labs team sets up your issue flow and AI replies with you.</span></div></div>';
+  }
+  function renderBooking(done, lead){
+    var first = esc(lead.name.split(" ")[0] || "there");
+    var head = '<div class="done-card"><div class="done-ic"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.2 4.2L19 7"/></svg></div>' +
+      '<h3>You are in, ' + first + '.</h3><p>Last step. Pick a time for a ' + CALL_MINUTES + '-minute setup call and the Chili Labs team will get ' + esc(lead.store || "your store") + ' live with you.</p>';
+    if(BOOKING_URL){
+      var u = BOOKING_URL + (BOOKING_URL.indexOf("?") > -1 ? "&" : "?") + "embed_type=Inline&hide_gdpr_banner=1&name=" + encodeURIComponent(lead.name) + "&email=" + encodeURIComponent(lead.email);
+      done.innerHTML = head + '<iframe class="bk-frame" title="Book your setup call" src="' + esc(u) + '"></iframe><button type="button" class="bk-skip" data-skip>Skip for now</button></div>';
+    } else {
+      var days = buildDays(lead.market);
+      done.innerHTML = head + '<div class="bk"><div class="bk-h">Choose a day</div><div class="bk-days" role="group" aria-label="Day">' +
+        days.map(function(d, i){ return '<button type="button" class="bk-day" data-i="'+i+'" aria-pressed="'+(i===0)+'"><small>'+fmt(d.first,{weekday:"short"})+'</small><b>'+fmt(d.first,{day:"numeric"})+'</b><small>'+fmt(d.first,{month:"short"})+'</small></button>'; }).join("") +
+        '</div><div class="bk-h">Choose a time</div><div class="bk-slots" role="group" aria-label="Time"></div><p class="bk-tz">Times shown in your time zone (' + esc(localTZ) + ').</p>' +
+        '<button type="button" class="cta" data-book disabled>Confirm my call<span class="arr" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></button>' +
+        '<button type="button" class="bk-skip" data-skip>Skip, I will install first</button></div></div>';
+      var slotsEl = done.querySelector(".bk-slots"), bookBtn = done.querySelector("[data-book]"), picked = null;
+      function drawSlots(i){
+        picked = null; bookBtn.disabled = true;
+        var d = days[i];
+        slotsEl.innerHTML = d ? d.slots.map(function(t){ return '<button type="button" class="bk-slot" data-t="'+t+'" aria-pressed="false">'+fmt(t,{hour:"numeric",minute:"2-digit"})+'</button>'; }).join("") : '<p class="bk-empty">No open times right now. Skip and the team will message you.</p>';
+      }
+      done.querySelectorAll(".bk-day").forEach(function(b){ b.addEventListener("click", function(){
+        done.querySelectorAll(".bk-day").forEach(function(x){ x.setAttribute("aria-pressed", x === b); }); drawSlots(+b.dataset.i);
+      }); });
+      slotsEl.addEventListener("click", function(e){
+        var b = e.target.closest(".bk-slot"); if(!b) return;
+        slotsEl.querySelectorAll(".bk-slot").forEach(function(x){ x.setAttribute("aria-pressed", x === b); });
+        picked = +b.dataset.t; bookBtn.disabled = false;
+      });
+      drawSlots(0);
+      bookBtn.addEventListener("click", function(){
+        if(!picked) return;
+        var booking = { email: lead.email, phone: lead.phone, name: lead.name, store: lead.store, tier: lead.tier, market: lead.market,
+          slot_utc: new Date(picked).toISOString(), slot_local: fmt(picked,{weekday:"long",day:"numeric",month:"long",hour:"numeric",minute:"2-digit"}), visitor_tz: localTZ,
+          minutes: CALL_MINUTES, page: lead.page, ts: new Date().toISOString() };
+        try { window.dispatchEvent(new CustomEvent("chili:booking", {detail: booking})); } catch(err){}
+        /* Dev: append booking to the Google Leads Sheet row matched on email, and create the calendar invite. fbq('track','Schedule') here. */
+        done.innerHTML = '<div class="done-card"><div class="done-ic"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.2 4.2L19 7"/></svg></div>' +
+          '<h3>Your call is booked.</h3><div class="booked"><b>' + esc(booking.slot_local) + '</b>' + CALL_MINUTES + ' minutes with the Chili Labs team. The invite comes to ' + esc(lead.email) + ' and a reminder on WhatsApp.</div>' +
+          '<p>Before the call, get these done so we can go straight to setup.</p>' + stepsHTML() + '</div>';
+        fcard.scrollTo({top:0, behavior: reduce ? "auto" : "smooth"});
+      });
+    }
+    var sk = done.querySelector("[data-skip]");
+    if(sk) sk.addEventListener("click", function(){
+      done.innerHTML = '<div class="done-card"><h3>No problem.</h3><p>Your 15-day free trial is ready. Here is what happens next.</p>' +
+        stepsHTML().replace("On your call, the Chili Labs team sets up", "The Chili Labs team messages you on WhatsApp and email to set up") + '</div>';
+      fcard.scrollTo({top:0, behavior: reduce ? "auto" : "smooth"});
+    });
+  }
   function finish(qualified){
     var lead = { qualified: qualified, platform: val("platform"), store: val("store"), market: val("market"),
       orders: val("orders"), team: val("team"), channels: val("channels"), name: val("name"), email: val("email"),
-      phone: val("phone"), plan: val("plan"), page: "chililabs_trial_lp_v9.2", ts: new Date().toISOString() };
+      phone: val("phone"), plan: val("plan"), page: "chililabs_trial_lp_v9.4", ts: new Date().toISOString() };
+    lead.tier = tierOf(lead);
     try { window.dispatchEvent(new CustomEvent("chili:lead", {detail: lead})); } catch(err){}
-    /* only qualified leads reach the contact step; not-a-fit exits at step 1 with no name, email or phone */
-    if(qualified){
-      submitLead({
-        name: lead.name, email: lead.email, phone: lead.phone,
-        platform: lead.platform, store: lead.store, market: lead.market,
-        orders: lead.orders, team: lead.team, channels: lead.channels.join(", "),
-        plan: lead.plan, qualified: "yes",
-        honeypot: val("honeypot"),
-        subject: "New Chili Labs trial lead" + (lead.name ? " - " + lead.name : ""),
-        source: "chililabs_trial_lp", page: location.href, submitted_at: lead.ts
-      });
-    }
     /* Dev: wire CRM webhook and Meta Pixel here, e.g. fbq('track','Lead') when qualified, fbq('trackCustom','NotAFit') when not. */
     form.hidden = true;
     document.querySelector(".prog").style.display = "none";
-    document.querySelector("#formCard > .gift").style.display = "none";
     document.querySelector(".f-intro").style.display = "none";
     $("fTitle").style.display = "none";
     var done = $("formDone"); done.hidden = false;
     if(qualified){
-      done.innerHTML = '<div class="done-card"><div class="done-ic"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.2 4.2L19 7"/></svg></div>' +
-        '<h3>You are in, ' + esc(lead.name.split(" ")[0] || "there") + '.</h3><p>Your 15-day free trial is ready for ' + esc(lead.store || "your store") + '. Here is what happens next.</p>' +
-        '<div class="next"><div><b class="n">1</b><span>Open the Shopify App Store, search for Chililabs: AI Customer Support and tap Install.</span></div><div><b class="n">2</b><span>Approve it in Shopify. Setup takes under 7 minutes.</span></div><div><b class="n">3</b><span>The Chili Labs team messages you on WhatsApp and email to help set up your issue flow and AI replies.</span></div></div>' + tplHTML() + '</div>';
+      renderBooking(done, lead);
     } else {
       done.innerHTML = '<div class="done-card"><div class="done-ic warn"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M12 7v6M12 17h.01"/></svg></div>' +
-        '<h3>Chili Labs is built only for Shopify stores.</h3><p>It reads Shopify order data directly, which is what keeps every reply accurate. Stores on other platforms cannot connect yet, so a trial would not help you today. Your replies below work anywhere though.</p>' + tplHTML() + '</div>';
+        '<h3>Chili Labs is built only for Shopify stores.</h3><p>It reads Shopify order data directly, which is what keeps every reply accurate. Stores on other platforms cannot connect yet, so a trial would not help you today. We will let you know if that changes.</p></div>';
     }
-    done.querySelectorAll(".copy").forEach(function(b){ b.addEventListener("click", function(){
-      var t = b.parentNode.querySelector(".tt").textContent;
-      (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(function(){ b.textContent = "Copied"; }, function(){ b.textContent = "Select and copy"; });
-    }); });
     fcard.scrollTo({top:0, behavior: reduce ? "auto" : "smooth"}); $("fClose").focus({preventScroll:true});
   }
 })();
