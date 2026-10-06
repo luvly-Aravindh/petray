@@ -18,7 +18,7 @@ npm run build && npm start   # production
 - `app/api/lead/route.ts`: server route. It adds `DESK_API_KEY` and forwards to `DESK_URL`.
   The key never reaches the browser.
 - Qualified leads (Shopify stores) are sent to Desk when they submit step 3, with subject
-  "New Chili Labs trial lead - <name>". If the send fails, the visitor sees an error and can retry.
+  "New Chili Labs trial lead". If the send fails, the visitor sees an error and can retry.
 - Not-a-fit visitors (another platform) are not sent, because they leave no contact details.
 - Window events `chili:lead` and `chili:booking` still fire for Google Sheet / Meta Pixel wiring.
 
