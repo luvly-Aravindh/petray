@@ -1,12 +1,18 @@
 /* Meeting booking (v9.4)
-   Option A: set BOOKING_URL to the Chili Labs Calendly or Cal.com link. The form embeds it
-   inline (no redirect), prefilled with name and email.
+   Option A: set BOOKING_URL to the Chili Labs Calendly link. After a qualified submit the
+   visitor is redirected there with name and email prefilled. The event has no phone field;
+   its notes question is left blank for the visitor (phone and store are already in Desk).
    Option B (default, BOOKING_URL empty): built-in slot picker. The chosen slot fires a
    "chili:booking" event for the Google Leads Sheet; the team confirms on WhatsApp.
    VERIFY with Chili Labs: call length and the hours their team can take calls for each market. */
 
-export const BOOKING_URL: string = "";
-export const CALL_MINUTES = 20;
+export const BOOKING_URL: string = "https://calendly.com/vaibhav-shresth-chililabs/30min";
+export const CALL_MINUTES = 30;
+
+export function bookingUrl(lead: { name: string; email: string }): string {
+  const q = new URLSearchParams({ name: lead.name, email: lead.email });
+  return BOOKING_URL + (BOOKING_URL.includes("?") ? "&" : "?") + q.toString();
+}
 
 type Hours = { tz: string; start: [number, number]; end: [number, number]; days: number[] };
 

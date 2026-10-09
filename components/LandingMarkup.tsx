@@ -55,7 +55,7 @@ export default function LandingMarkup() {
           </p>
           <div className="cta-block h-in" style={{ animationDelay: ".3s" }}>
             <button className="cta" data-go="">
-              Start free trial
+              Book my setup call
               <span className="arr" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M5 12h14M13 6l6 6-6 6" />
@@ -577,7 +577,7 @@ export default function LandingMarkup() {
             </div>
             <div className="cta-block rv up">
               <button className="cta" data-go="">
-                Start free trial
+                Book my setup call
                 <span className="arr" aria-hidden="true">
                   <svg viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M5 12h14M13 6l6 6-6 6" />
@@ -1331,7 +1331,7 @@ export default function LandingMarkup() {
           </div>
           <div className="cta-block rv up">
             <button className="cta" data-go="">
-              Start free trial
+              Book my setup call
               <span className="arr" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M5 12h14M13 6l6 6-6 6" />
@@ -1463,7 +1463,7 @@ export default function LandingMarkup() {
             </p>
             <div className="cta-block">
               <button className="cta" data-go="">
-                Start free trial
+                Book my setup call
                 <span className="arr" aria-hidden="true">
                   <svg viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M5 12h14M13 6l6 6-6 6" />
@@ -1522,7 +1522,7 @@ export default function LandingMarkup() {
             </div>
           </div>
           <button className="cta" data-go="">
-            Start free trial
+            Book my setup call
             <span className="arr" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M5 12h14M13 6l6 6-6 6" />
@@ -1541,7 +1541,7 @@ export default function LandingMarkup() {
             ✕
           </button>
           <div className="reel-logo" id="reelLogo">
-            <img id="reelImg" src="" alt="" />
+            <img id="reelImg" alt="" />
           </div>
           <div className="reel-txt" id="reelTxt" />
         </div>

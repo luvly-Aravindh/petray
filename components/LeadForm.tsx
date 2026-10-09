@@ -7,7 +7,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import { submitLead } from "@/lib/submitLead";
-import { BOOKING_URL, CALL_MINUTES, buildDays, fmt, localTimeZone, type BookingDay } from "@/lib/booking";
+import { BOOKING_URL, CALL_MINUTES, bookingUrl, buildDays, fmt, localTimeZone, type BookingDay } from "@/lib/booking";
 import { COUNTRIES, DEFAULT_COUNTRY, cleanDigits, countryOf, flagUrl, phoneError } from "@/lib/phone";
 
 type Opt = { value: string; label: string };
@@ -454,7 +454,7 @@ export default function LeadForm() {
                 {sendError && <p className="err" role="alert" style={{ display: "block", textAlign: "center" }}>{sendError}</p>}
                 <div className="fnav">
                   <button type="submit" className="cta" disabled={sending} aria-busy={sending}>
-                    {sending ? "Sending…" : "Start free trial"}<Arrow />
+                    {sending ? "Sending…" : "Book my setup call"}<Arrow />
                   </button>
                   <button type="button" className="back" onClick={() => show(Math.max(0, step - 1))}>Back</button>
                 </div>
@@ -514,6 +514,23 @@ function Booked({ lead, slotLocal }: { lead: Lead; slotLocal: string }) {
   );
 }
 
+function BookingRedirect({ lead, first }: { lead: Lead; first: string }) {
+  const url = useMemo(() => bookingUrl(lead), [lead]);
+  useEffect(() => {
+    /* fbq('track','Schedule') here if wanted, before leaving the page */
+    const t = setTimeout(() => window.location.assign(url), 600);
+    return () => clearTimeout(t);
+  }, [url]);
+  return (
+    <div className="done-card">
+      <Tick />
+      <h3>You are in, {first}.</h3>
+      <p>Taking you to pick a time for your {CALL_MINUTES}-minute setup call. Your details are already filled in.</p>
+      <a className="cta" href={url}>Pick my call time<Arrow /></a>
+    </div>
+  );
+}
+
 function Booking({ lead, onBooked, onSkip }: { lead: Lead; onBooked: (slotLocal: string) => void; onSkip: () => void }) {
   const first = lead.name.split(" ")[0] || "there";
   const days = useMemo<BookingDay[]>(() => (BOOKING_URL ? [] : buildDays(lead.market)), [lead.market]);
@@ -529,17 +546,7 @@ function Booking({ lead, onBooked, onSkip }: { lead: Lead; onBooked: (slotLocal:
     </>
   );
 
-  if (BOOKING_URL) {
-    const u = BOOKING_URL + (BOOKING_URL.includes("?") ? "&" : "?") +
-      "embed_type=Inline&hide_gdpr_banner=1&name=" + encodeURIComponent(lead.name) + "&email=" + encodeURIComponent(lead.email);
-    return (
-      <div className="done-card">
-        {head}
-        <iframe className="bk-frame" title="Book your setup call" src={u} />
-        <button type="button" className="bk-skip" onClick={onSkip}>Skip for now</button>
-      </div>
-    );
-  }
+  if (BOOKING_URL) return <BookingRedirect lead={lead} first={first} />;
 
   const day = days[dayIdx];
 

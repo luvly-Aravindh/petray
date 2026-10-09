@@ -256,7 +256,7 @@ export default function LandingEffects() {
       const openReel = (i: number) => {
         const R = REELS[i]; if (!R) return;
         lastFocus = document.activeElement as HTMLElement | null;
-        reelImg.src = logos[i] || ""; reelImg.alt = `${R.name} logo`;
+        if (logos[i]) reelImg.src = logos[i]; else reelImg.removeAttribute("src"); reelImg.alt = `${R.name} logo`;
         const lg = $("reelLogo");
         if (lg) { lg.style.animation = "none"; void lg.offsetWidth; lg.style.animation = ""; }
         rtx.innerHTML = R.lines.map((l) => `<div class="ln">${l}</div>`).join("") + `<div class="ln res">${R.res}</div><div class="ln who">${R.who}</div>`;
